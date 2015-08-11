@@ -6,6 +6,11 @@ package com.tingyun.event;
  *
  */
 public interface EventConstants {
+	
+	/**
+	 * 警报数据统计延时（单位：秒）
+	 */
+	public static int ALARM_DATA_DELAY = 180;
 
 	/**
 	 * 警报级别：无需警报

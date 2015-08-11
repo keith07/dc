@@ -35,13 +35,7 @@ public class KeyActionAlarmTrigger extends AbstractAlarmTrigger<DefaultAlarmEven
 	}
 
 	@Override
-	protected KeyActionEvent createEvent(AlarmDataKey<AlarmData> key) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	protected DefaultAlarmEventTarget parseTarget(AlarmData data) {
+	protected DefaultAlarmEventTarget parseTarget(AlarmDataKey<AlarmData> data) {
 		// TODO Auto-generated method stub
 		return null;
 	}

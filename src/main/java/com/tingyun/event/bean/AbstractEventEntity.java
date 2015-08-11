@@ -7,29 +7,26 @@ import java.util.Date;
  * @author qi guan yi
  *
  */
-public abstract class AbstractEventEntity implements Comparable<AbstractEventEntity> {
+public abstract class AbstractEventEntity {
 
 	//TODO 找到需要的公用方法
-
-	/** 
-	 * 
-	 */
-	public int compareTo(AbstractEventEntity o) {
-
-		if (o == null || this.getBeginTime().before(o.getBeginTime()) || this.getEventType() < o.getEventType() || this.getEventLevel() > o.getEventLevel())
-			return -1;
-
-		if (this.getBeginTime().after(o.getBeginTime()) || this.getEventType() > o.getEventType() || this.getEventLevel() < o.getEventLevel())
-			return 1;
-
-		return 0;
-	}
 	
 	/**
 	 * 开始时间
 	 * @return
 	 */
 	public abstract Date getBeginTime();
+	
+	/**
+	 * 结束时间
+	 * @return
+	 */
+	public abstract Date getEndTime();
+	
+	/**
+	 * 结束时间
+	 */
+	public abstract void setEndTime(Date endTime);
 	/**
 	 * 事件类型
 	 * @return
@@ -40,4 +37,9 @@ public abstract class AbstractEventEntity implements Comparable<AbstractEventEnt
 	 * @return
 	 */
 	public abstract int getEventLevel();
+	/**
+	 * 事件状态
+	 * @return
+	 */
+	public abstract int getStatus();
 }

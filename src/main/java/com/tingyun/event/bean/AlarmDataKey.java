@@ -1,7 +1,5 @@
 package com.tingyun.event.bean;
 
-import java.util.List;
-
 import com.tingyun.event.IAlarmEventTarget;
 
 
@@ -19,7 +17,7 @@ public class AlarmDataKey<D extends AlarmData> implements IAlarmEventTarget {
 	 * 警报数据
 	 * 一个警报对象会有多条警报数据
 	 */
-	private List<D> datas;
+	private D data;
 	/**
 	 * 时间戳
 	 */
@@ -47,7 +45,7 @@ public class AlarmDataKey<D extends AlarmData> implements IAlarmEventTarget {
 		
 	}
 	
-	public List<D> getAllDatas(){
-		return datas;
+	public D getData(){
+		return data;
 	}
 }

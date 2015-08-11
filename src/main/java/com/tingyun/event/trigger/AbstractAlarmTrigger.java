@@ -2,6 +2,7 @@ package com.tingyun.event.trigger;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,7 @@ import com.tingyun.event.IAlarmEventTarget;
 import com.tingyun.event.bean.AbstractEventEntity;
 import com.tingyun.event.bean.AlarmData;
 import com.tingyun.event.bean.AlarmDataKey;
+import com.tingyun.event.bean.AlarmEventHolder;
 import com.tingyun.event.bean.AlarmEventKey;
 import com.tingyun.event.service.AbstractTemplateNotificationService;
 import com.tingyun.event.service.NotificationService;
@@ -26,18 +28,24 @@ import com.tingyun.event.service.NotificationService;
  */
 public abstract class AbstractAlarmTrigger<T extends IAlarmEventTarget,D extends AlarmData,E extends AbstractEventEntity>{
 	
-	//所有收到的数据
+	/**
+	 * 所有收到的数据
+	 * 每个key对应一条数据
+	 */
 	private List<AlarmDataKey<D>> alarmDataKeys = new ArrayList<AlarmDataKey<D>>();
-	//报警事件列表，包含
-	private Map<AlarmEventKey<T>,List<E>> alarmEvents = new HashMap<AlarmEventKey<T>,List<E>>();
+	/**
+	 * 同类型警报的历史数据
+	 */
+	private Map<AlarmEventKey<T>,List<AlarmEventHolder<E>>> alarmEvents = new HashMap<AlarmEventKey<T>,List<AlarmEventHolder<E>>>();
 	protected Logger logger = LoggerFactory.getLogger(this.getClass());
-	//邮件发送服务
+	/**
+	 * 邮件发送服务
+	 */
 	private AbstractTemplateNotificationService mailNotificationService;
-	//短信发送服务
+	/**
+	 * 短信发送服务
+	 */
 	private NotificationService smsNotificationService;
-	
-	//TODO 缺省延时是如何定的
-	private int defaultDelay = 60;
 	
 	/**
 	 * 定时触发警报处理
@@ -46,7 +54,7 @@ public abstract class AbstractAlarmTrigger<T extends IAlarmEventTarget,D extends
 		//如果key的时间戳+预留数据统计延时时间大于现在时间 则移除该key
 		int now = (int) (System.currentTimeMillis()/1000);
 		for(AlarmDataKey<D> key : alarmDataKeys){
-			if(key.getTimestamp() + defaultDelay > now)
+			if(key.getTimestamp() + EventConstants.ALARM_DATA_DELAY > now)
 				alarmDataKeys.remove(key);
 		}
 		//取到每个数据对应的警报设置，然后判断该数据是否触发警报以及警报类型
@@ -85,17 +93,11 @@ public abstract class AbstractAlarmTrigger<T extends IAlarmEventTarget,D extends
 	}
 	
 	/**
-	 * 将接收的json转成AlarmData对象
+	 * 将接收的json转成AlarmDataKey对象
 	 * @param jsonDdata
 	 * @return
 	 */
-	protected abstract D parseAlarmData(String jsonDdata);
-	/**
-	 * 将接收的json转成AlarmData对象
-	 * @param jsonDdata
-	 * @return
-	 */
-	protected abstract AlarmDataKey<D> pickAlarmDataKey(String jsonDdata);
+	protected abstract AlarmDataKey<D> parseAlarmData(String jsonDdata);
 	/**
 	 * 根据警报设置判断该数据对应的警报级别
 	 * @param dataKey
@@ -115,12 +117,6 @@ public abstract class AbstractAlarmTrigger<T extends IAlarmEventTarget,D extends
 	 * @return
 	 */
 	protected abstract E saveEvent(E event);
-	/**
-	 * 创建警报事件
-	 * @param key
-	 * @return
-	 */
-	protected abstract E createEvent(AlarmDataKey<D> key);
 	/**
 	 * 转成各自的target类型
 	 * @param data
@@ -147,26 +143,39 @@ public abstract class AbstractAlarmTrigger<T extends IAlarmEventTarget,D extends
 	private void tryTriggerAlarmEvent(int alarmLevel,AlarmDataKey<D> alarmDataKey){
 		//获取该警报对象的历史警报数据
 		AlarmEventKey<T> key = new AlarmEventKey<T>(parseTarget(alarmDataKey),alarmLevel);
-		List<E> events = new ArrayList<E>();
-		List<E> existedEvents = alarmEvents.putIfAbsent(key,events);
+		List<AlarmEventHolder<E>> events = new ArrayList<AlarmEventHolder<E>>();
+		List<AlarmEventHolder<E>> existedEvents = alarmEvents.putIfAbsent(key,events);
 		//如果缓存中没有，则去数据库中获取
 		if(existedEvents == null){
 			List<E> eventsSinceLastRestart = getOpenedAlarmEvents(parseTarget(alarmDataKey),alarmLevel);
-			existedEvents = eventsSinceLastRestart;
+			if(eventsSinceLastRestart != null && eventsSinceLastRestart.size() > 0){
+				existedEvents = new ArrayList<AlarmEventHolder<E>>();
+				for(E event : eventsSinceLastRestart){
+					AlarmEventHolder<E> holder = new AlarmEventHolder<E>(event);
+					existedEvents.add(holder);
+				}
+			}
 		}
 		//如果existedEvents不为空
 		if(existedEvents != null){
-			E event = createEvent(alarmDataKey);
-			int index = Collections.binarySearch(existedEvents, event);
+			AlarmEventHolder<E> holder = new AlarmEventHolder<E>(alarmDataKey);
+			int index = Collections.binarySearch(existedEvents, holder);
 			//1.进行二进制比较，如果报警内容匹配则忽略
 			if(index >= 0){
 				return;
 			}else{
-				
+				for(AlarmEventHolder<E> existEvent : existedEvents){
+					//2.否则查找同类型开启状态的警报
+					//	找到警报后做两种处理
+					if(existEvent.getEventType() == alarmDataKey.getType() && existEvent.getEventLevel() == alarmLevel && existEvent.getStatus() == EventConstants.EVENT_STATUS_OPEN){
+						//		1.该警报开始时间小于当前警报时间，则将本警报合入该警报，重置结束时间为本警报时间+60的延时，修正加权平均值
+						if(existEvent.getBeginTime() < holder.getBeginTime()){
+							existEvent.setEndTime(holder.getEndTime()+ 60);
+						}
+						break;
+					}
+				}
 			}
-		//2.否则查找同类型开启状态的警报
-		//	找到警报后做两种处理
-		//		1.该警报开始时间小于当前警报时间，则将本警报合入该警报，重置结束时间为本警报时间+60的延时，修正加权平均值
 		//		2.否则判断警报是否已触发（eventTraceId=0代表未触发）已触发则修正开始时间为当前警报时间，修正加权平均值；未触发则触发本警报
 		//	如果触发警报则在历史警报里插入本警报
 		//检查警报触发条件：设置为空则抛异常

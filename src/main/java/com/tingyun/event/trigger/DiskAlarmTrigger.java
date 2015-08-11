@@ -40,15 +40,10 @@ public class DiskAlarmTrigger extends AbstractAlarmTrigger<DefaultAlarmEventTarg
 	}
 
 	@Override
-	protected DiskEvent createEvent(AlarmDataKey<AlarmData> key) {
+	protected DefaultAlarmEventTarget parseTarget(AlarmDataKey<AlarmData> data) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
-	protected DefaultAlarmEventTarget parseTarget(AlarmData data) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 }

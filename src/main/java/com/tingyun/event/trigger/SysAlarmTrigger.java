@@ -35,15 +35,10 @@ public class SysAlarmTrigger extends AbstractAlarmTrigger<DefaultAlarmEventTarge
 	}
 
 	@Override
-	protected ServerEvent createEvent(AlarmDataKey<AlarmData> key) {
+	protected DefaultAlarmEventTarget parseTarget(AlarmDataKey<AlarmData> data) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
-	protected DefaultAlarmEventTarget parseTarget(AlarmData data) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 }

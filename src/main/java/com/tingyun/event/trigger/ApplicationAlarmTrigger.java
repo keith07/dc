@@ -40,15 +40,10 @@ public class ApplicationAlarmTrigger extends AbstractAlarmTrigger<DefaultAlarmEv
 	}
 
 	@Override
-	protected ApplicationEvent createEvent(AlarmDataKey<AlarmData> key) {
+	protected DefaultAlarmEventTarget parseTarget(AlarmDataKey<AlarmData> data) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
-	protected DefaultAlarmEventTarget parseTarget(AlarmData data) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 }

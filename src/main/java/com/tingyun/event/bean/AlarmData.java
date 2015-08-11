@@ -51,4 +51,22 @@ public class AlarmData extends AbstractEventEntity implements IAlarmEventTarget 
 		return 0;
 	}
 
+	@Override
+	public int getStatus() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public Date getEndTime() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setEndTime(Date endTime) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
