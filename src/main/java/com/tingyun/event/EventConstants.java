@@ -46,11 +46,11 @@ public interface EventConstants {
 	
 
 	/**
-	 * 事件类型：警报
+	 * 事件类型：警报通知
 	 */
 	public static int EVENT_TYPE_NOTIFICATION = 9;
 	/**
-	 * 事件类型：警报解除
+	 * 事件类型：警报解除通知
 	 */
 	public static int EVENT_TYPE_NOTIFICATION_CLOSED = 10;
 	/**

@@ -3,8 +3,8 @@ package com.tingyun.event.service;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.tingyun.event.IAlarmEventTarget;
 import com.tingyun.event.bean.AbstractEventSetting;
-import com.tingyun.event.bean.DefaultAlarmEventTarget;
 
 
 /**
@@ -13,7 +13,7 @@ import com.tingyun.event.bean.DefaultAlarmEventTarget;
  *
  * @param <S>
  */
-public abstract class CachedAlarmEventSettingService<T extends DefaultAlarmEventTarget,S extends AbstractEventSetting>{
+public abstract class CachedAlarmEventSettingService<T extends IAlarmEventTarget,S extends AbstractEventSetting>{
 
 
 	/**
@@ -26,12 +26,21 @@ public abstract class CachedAlarmEventSettingService<T extends DefaultAlarmEvent
 	 * @param targetId
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
-	public S getSetting(int targetId){
-		int type = this.getEventTargetType();
-		T target = (T) T.newInstance();
-		target.setType(type);
-		target.setValue(targetId);
+//	@SuppressWarnings("unchecked")
+//	public S getSetting(int targetId){
+//		int type = this.getEventTargetType();
+//		T target = (T) T.newInstance();
+//		target.setType(type);
+//		target.setValue(targetId);
+//		return getSetting(target);
+//	}
+	
+	/**
+	 * 从缓存中获取配置信息
+	 * @param target
+	 * @return
+	 */
+	public S getSetting(T target){
 		S setting = settings.get(target);
 		//TODO 判断是否需要重新获取警报设置
 		if(setting == null){

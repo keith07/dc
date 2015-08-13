@@ -12,7 +12,10 @@ package com.tingyun.event.bean;
  */
 public class AlarmEventHolder<E extends AbstractEventEntity> implements Comparable<AlarmEventHolder<E>> {
 
-
+	/**
+	 * 事件标示
+	 */
+	private int id;
 	/**
 	 * 事件类型：0 - 无 6 - 错误率超过阈值 7 - Apdex超过阈值 9 - 触发报警 10 - 解除报警通知 100 - 备忘
 	 */
@@ -30,9 +33,13 @@ public class AlarmEventHolder<E extends AbstractEventEntity> implements Comparab
 	 */
 	private int endTime;
 	/**
+	 * 时间单位数
+	 */
+	private int timeCount;
+	/**
 	 * 警报触发时间段内的平均值或错误率
 	 */
-	private float value;
+	private double value;
 	/**
 	 * 警报触发时间段内的请求数
 	 */
@@ -42,9 +49,19 @@ public class AlarmEventHolder<E extends AbstractEventEntity> implements Comparab
 	 */
 	private int status;
 	/**
+	 * 事件跟踪ID（同一组事件使用同一个跟踪ID）
+	 */
+	private int eventTraceId;
+	/**
 	 * 事件实体
 	 */
 	private E event;
+	/**
+	 * 关联事件实体
+	 * 警报通知事件跟警报结束通知事件，需要关联到具体的警报事件
+	 * 对应的就是这个事件流的第一条警报事件
+	 */
+	private E relatedEvent;
 	
 	public AlarmEventHolder(E event){
 		this.event = event;
@@ -59,15 +76,44 @@ public class AlarmEventHolder<E extends AbstractEventEntity> implements Comparab
 	}
 
 	/* (non-Javadoc)
+	 * 排序标准：开始时间、事件类型、事件级别
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
 	public int compareTo(AlarmEventHolder<E> holder) {
-		//TODO 逻辑未知
 		if (holder == null || this.getBeginTime() < holder.getBeginTime() || this.getEventType() < holder.getEventType() || this.getEventLevel() > holder.getEventLevel())
 			return -1;
 		if (this.getBeginTime() > holder.getBeginTime() || this.getEventType() > holder.getEventType() || this.getEventLevel() < holder.getEventLevel())
 			return 1;
 		return 0;
+	}
+
+	/**
+	 * 修正加权平均值
+	 * @param value
+	 * @param count
+	 */
+	public void weightedAverage(double value, int count) {
+		this.value = (this.value * this.count + value * count)
+				/ (this.count + count);
+		this.count += count;
+	}
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	/**
+	 * 获取事件持续时间戳
+	 * 单位为分钟
+	 * @return
+	 */
+	public int getTimePeriod(){
+		//目前一分钟一份数据，因此直接返回timeCount
+		return getTimeCount();
 	}
 	
 
@@ -103,11 +149,19 @@ public class AlarmEventHolder<E extends AbstractEventEntity> implements Comparab
 		this.endTime = endTime;
 	}
 
-	public float getValue() {
+	public int getTimeCount() {
+		return timeCount;
+	}
+
+	public void setTimeCount(int timeCount) {
+		this.timeCount = timeCount;
+	}
+
+	public double getValue() {
 		return value;
 	}
 
-	public void setValue(float value) {
+	public void setValue(double value) {
 		this.value = value;
 	}
 
@@ -126,11 +180,27 @@ public class AlarmEventHolder<E extends AbstractEventEntity> implements Comparab
 		this.status = status;
 	}
 
+	public int getEventTraceId() {
+		return eventTraceId;
+	}
+
+	public void setEventTraceId(int eventTraceId) {
+		this.eventTraceId = eventTraceId;
+	}
+
 	public E getEvent() {
 		return event;
 	}
 
 	public void setEvent(E event) {
 		this.event = event;
+	}
+
+	public E getRelatedEvent() {
+		return relatedEvent;
+	}
+
+	public void setRelatedEvent(E relatedEvent) {
+		this.relatedEvent = relatedEvent;
 	}
 }

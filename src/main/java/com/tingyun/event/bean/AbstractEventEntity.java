@@ -42,4 +42,14 @@ public abstract class AbstractEventEntity {
 	 * @return
 	 */
 	public abstract int getStatus();
+	/**
+	 * 事件跟踪ID（同一组事件使用同一个跟踪ID）
+	 * @return
+	 */
+	public abstract int getEventTraceId();
+	/**
+	 * 关联事件标示
+	 * @return
+	 */
+	public abstract int getRelatedEventId();
 }

@@ -26,7 +26,7 @@ public class ApplicationEvent extends AbstractEventEntity {
 	/**
 	 * 事件跟踪ID（同一组事件使用同一个跟踪ID）
 	 */
-	@Column(name="evnet_trace_id", nullable=false)
+	@Column(name="event_trace_id", nullable=false)
 	private int eventTraceId;
 	/**
 	 * 关联事件的ID。

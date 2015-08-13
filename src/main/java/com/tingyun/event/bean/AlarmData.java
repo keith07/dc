@@ -69,4 +69,10 @@ public class AlarmData extends AbstractEventEntity implements IAlarmEventTarget 
 		
 	}
 
+	@Override
+	public int getEventTraceId() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }
