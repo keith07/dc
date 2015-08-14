@@ -1,5 +1,7 @@
 package com.tingyun.event.bean;
 
+import com.tingyun.event.entity.AbstractEventEntity;
+
 
 
 /**

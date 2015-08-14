@@ -6,15 +6,15 @@ import com.tingyun.event.bean.AlarmData;
 import com.tingyun.event.bean.AlarmDataKey;
 import com.tingyun.event.bean.AlarmEventHolder;
 import com.tingyun.event.bean.DefaultAlarmEventTarget;
+import com.tingyun.event.bean.DefaultEventSetting;
 import com.tingyun.event.entity.DiskEvent;
-import com.tingyun.event.entity.ServerEventSetting;
 
 /**
  * 硬盘警报具体通知
  * @author qi guan yi
  *
  */
-public class DiskAlarmTrigger extends AbstractAlarmTrigger<DefaultAlarmEventTarget,AlarmData,DiskEvent,ServerEventSetting> {
+public class DiskAlarmTrigger extends AbstractAlarmTrigger<DefaultAlarmEventTarget,AlarmData,DiskEvent,DefaultEventSetting> {
 
 	@Override
 	protected AlarmDataKey<AlarmData> parseAlarmData(String jsonDdata) {

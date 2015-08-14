@@ -3,6 +3,7 @@ package com.tingyun.event.bean;
 import java.util.Date;
 
 import com.tingyun.event.IAlarmEventTarget;
+import com.tingyun.event.entity.AbstractEventEntity;
 
 
 /**

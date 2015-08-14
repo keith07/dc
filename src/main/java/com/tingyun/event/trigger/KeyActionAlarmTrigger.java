@@ -6,10 +6,10 @@ import com.tingyun.event.bean.AlarmData;
 import com.tingyun.event.bean.AlarmDataKey;
 import com.tingyun.event.bean.AlarmEventHolder;
 import com.tingyun.event.bean.DefaultAlarmEventTarget;
+import com.tingyun.event.bean.DefaultEventSetting;
 import com.tingyun.event.entity.KeyActionEvent;
-import com.tingyun.event.entity.KeyActionEventSetting;
 
-public class KeyActionAlarmTrigger extends AbstractAlarmTrigger<DefaultAlarmEventTarget,AlarmData,KeyActionEvent,KeyActionEventSetting> {
+public class KeyActionAlarmTrigger extends AbstractAlarmTrigger<DefaultAlarmEventTarget,AlarmData,KeyActionEvent,DefaultEventSetting> {
 
 	@Override
 	protected AlarmDataKey<AlarmData> parseAlarmData(String jsonDdata) {

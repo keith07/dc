@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.tingyun.event.IAlarmEventTarget;
-import com.tingyun.event.bean.AbstractEventSetting;
+import com.tingyun.event.bean.DefaultEventSetting;
 
 
 /**
@@ -13,7 +13,7 @@ import com.tingyun.event.bean.AbstractEventSetting;
  *
  * @param <S>
  */
-public abstract class CachedAlarmEventSettingService<T extends IAlarmEventTarget,S extends AbstractEventSetting>{
+public abstract class CachedAlarmEventSettingService<T extends IAlarmEventTarget,S extends DefaultEventSetting>{
 
 
 	/**
@@ -42,11 +42,21 @@ public abstract class CachedAlarmEventSettingService<T extends IAlarmEventTarget
 	 */
 	public S getSetting(T target){
 		S setting = settings.get(target);
-		//TODO 判断是否需要重新获取警报设置
 		if(setting == null){
 			setting = loadSetting(target);
 			settings.put(target, setting);
 		}
+		return setting;
+	}
+	
+	/**
+	 * 重新加载警报设置
+	 * @param target
+	 * @return
+	 */
+	public S refreshSetting(T target){
+		S setting = loadSetting(target);
+		settings.put(target, setting);
 		return setting;
 	}
 

@@ -6,15 +6,15 @@ import com.tingyun.event.bean.AlarmData;
 import com.tingyun.event.bean.AlarmDataKey;
 import com.tingyun.event.bean.AlarmEventHolder;
 import com.tingyun.event.bean.DefaultAlarmEventTarget;
+import com.tingyun.event.bean.DefaultEventSetting;
 import com.tingyun.event.entity.ApplicationEvent;
-import com.tingyun.event.entity.ApplicationEventSetting;
 
 /**
  * 应用警报的具体实现
  * @author qi guan yi
  *
  */
-public class ApplicationAlarmTrigger extends AbstractAlarmTrigger<DefaultAlarmEventTarget,AlarmData,ApplicationEvent,ApplicationEventSetting> {
+public class ApplicationAlarmTrigger extends AbstractAlarmTrigger<DefaultAlarmEventTarget,AlarmData,ApplicationEvent,DefaultEventSetting> {
 
 	@Override
 	protected AlarmDataKey<AlarmData> parseAlarmData(String jsonDdata) {

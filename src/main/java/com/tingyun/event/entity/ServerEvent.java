@@ -8,8 +8,6 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Where;
 
-import com.tingyun.event.bean.AbstractEventEntity;
-
 @Entity
 @Table(name="NL_U_SERVER_EVENTS")
 @Where(clause = "disk_id = 0")

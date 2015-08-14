@@ -14,6 +14,7 @@ public interface EventConstants {
 
 	/**
 	 * 警报级别：无需警报
+	 * 该级别数据无需入库
 	 */
 	public static int EVENT_LEVEL_NONE = 0;
 	/**
@@ -94,5 +95,23 @@ public interface EventConstants {
 	 * 事件目标类型：服务器
 	 */
 	public static int EVENT_TARGET_TYPE_SYS = 4;
+
+	/**
+	 * 通知类型：不通知
+	 */
+	public final static int NOTIFICATION_TYPE_NONE = 0;
+	/**
+	 * 通知类型：邮件通知
+	 */
+	public final static int NOTIFICATION_TYPE_MAIL = 1;
+	/**
+	 * 通知类型：短信通知
+	 */
+	public final static int NOTIFICATION_TYPE_SMS = 2;
+	
+	/**
+	 * 通知类型：发送邮件和短信
+	 */
+	public final static int NOTIFICATION_TYPE_MAIL_SMS = 3;
 	
 }

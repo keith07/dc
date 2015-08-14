@@ -4,8 +4,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import com.tingyun.event.bean.AbstractEventSetting;
-
 @Entity
 @Table(name="NL_U_KEY_ACTION_EVENT_SETTINGS")
 public class KeyActionEventSetting extends AbstractEventSetting {

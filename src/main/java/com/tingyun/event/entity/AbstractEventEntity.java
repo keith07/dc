@@ -1,4 +1,4 @@
-package com.tingyun.event.bean;
+package com.tingyun.event.entity;
 
 import java.util.Date;
 

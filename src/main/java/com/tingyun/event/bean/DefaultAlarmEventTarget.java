@@ -16,6 +16,7 @@ public class DefaultAlarmEventTarget implements IAlarmEventTarget {
 	private int type;
 	/**
 	 * 事件目标Id值
+	 * 1:应用；2：关键应用；3：硬盘；4：服务器
 	 */
 	private int value;
 	

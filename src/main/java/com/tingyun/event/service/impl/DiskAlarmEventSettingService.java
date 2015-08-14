@@ -2,13 +2,13 @@ package com.tingyun.event.service.impl;
 
 import com.tingyun.event.EventConstants;
 import com.tingyun.event.bean.DefaultAlarmEventTarget;
-import com.tingyun.event.entity.ApplicationEventSetting;
+import com.tingyun.event.bean.DefaultEventSetting;
 import com.tingyun.event.service.CachedAlarmEventSettingService;
 
-public class DiskAlarmEventSettingService  extends CachedAlarmEventSettingService<DefaultAlarmEventTarget,ApplicationEventSetting> {
+public class DiskAlarmEventSettingService  extends CachedAlarmEventSettingService<DefaultAlarmEventTarget,DefaultEventSetting> {
 
 	@Override
-	protected ApplicationEventSetting loadSetting(DefaultAlarmEventTarget target) {
+	protected DefaultEventSetting loadSetting(DefaultAlarmEventTarget target) {
 		// TODO Auto-generated method stub
 		return null;
 	}

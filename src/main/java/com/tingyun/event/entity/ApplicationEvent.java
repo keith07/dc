@@ -6,8 +6,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import com.tingyun.event.bean.AbstractEventEntity;
-
 @Entity
 @Table(name="NL_U_MOBILE_APP_EVENTS")
 public class ApplicationEvent extends AbstractEventEntity {

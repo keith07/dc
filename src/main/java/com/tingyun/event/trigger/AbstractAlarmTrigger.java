@@ -11,12 +11,12 @@ import org.slf4j.LoggerFactory;
 
 import com.tingyun.event.EventConstants;
 import com.tingyun.event.IAlarmEventTarget;
-import com.tingyun.event.bean.AbstractEventEntity;
-import com.tingyun.event.bean.AbstractEventSetting;
 import com.tingyun.event.bean.AlarmData;
 import com.tingyun.event.bean.AlarmDataKey;
 import com.tingyun.event.bean.AlarmEventHolder;
 import com.tingyun.event.bean.AlarmEventKey;
+import com.tingyun.event.bean.DefaultEventSetting;
+import com.tingyun.event.entity.AbstractEventEntity;
 import com.tingyun.event.service.AbstractTemplateNotificationService;
 import com.tingyun.event.service.CachedAlarmEventSettingService;
 import com.tingyun.event.service.NotificationService;
@@ -27,7 +27,7 @@ import com.tingyun.event.service.NotificationService;
  *
  * @param <T>
  */
-public abstract class AbstractAlarmTrigger<T extends IAlarmEventTarget,D extends AlarmData,E extends AbstractEventEntity,S extends AbstractEventSetting>{
+public abstract class AbstractAlarmTrigger<T extends IAlarmEventTarget,D extends AlarmData,E extends AbstractEventEntity,S extends DefaultEventSetting>{
 	
 	/**
 	 * 所有收到的数据
@@ -117,6 +117,12 @@ public abstract class AbstractAlarmTrigger<T extends IAlarmEventTarget,D extends
 	 */
 	protected abstract List<E> getOpenedAlarmEvents(T target, int eventType);
 	/**
+	 * 创建event实体
+	 * @return
+	 */
+	protected abstract E createEvent();
+	protected abstract E createEvent(T target);
+	/**
 	 * 保存警报事件到数据库中
 	 * @param event
 	 * @return
@@ -130,13 +136,13 @@ public abstract class AbstractAlarmTrigger<T extends IAlarmEventTarget,D extends
 	protected abstract T parseTarget(AlarmDataKey<D> data);
 	
 	/**
-	 * 判断是否需要触发警报
+	 * 判断是否最终需要触发警报
 	 * @return
 	 */
 	protected abstract boolean needTriggerAlarm(AlarmEventHolder<E> holder);
 	
 	/**
-	 * 判断是否需要触发通知
+	 * 判断是否需最终要触发通知
 	 * @return
 	 */
 	protected abstract boolean needTriggerNotification(AlarmEventHolder<E> holder);
@@ -339,7 +345,12 @@ public abstract class AbstractAlarmTrigger<T extends IAlarmEventTarget,D extends
 	 * @param timestamp
 	 */
 	private void triggerEventNotification(T target,AlarmEventHolder<E> evt,int timestamp){
+		if(evt == null)
+			return;
 		//如果警报类型为不警报，则跳过
+		S setting = eventSettingService.getSetting(target);
+		if(!setting.isEnableNotification())
+			return;
 		//将警报写库，加入existedEvents中
 		//发送报警邮件/短信：相同语言及时区的通知合并发送
 		//logger.debug("sending mail notification on target #{}, subject: {}, eventName: {}, trimmedEventName: {}, mobileAppName: {}", target.toString(), subject, eventName, trimmedEventName, "#" + settings.getId() + "," + settings.getName());
