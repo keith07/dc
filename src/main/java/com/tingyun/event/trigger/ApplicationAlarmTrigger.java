@@ -4,15 +4,17 @@ import java.util.List;
 
 import com.tingyun.event.bean.AlarmData;
 import com.tingyun.event.bean.AlarmDataKey;
+import com.tingyun.event.bean.AlarmEventHolder;
 import com.tingyun.event.bean.DefaultAlarmEventTarget;
 import com.tingyun.event.entity.ApplicationEvent;
+import com.tingyun.event.entity.ApplicationEventSetting;
 
 /**
  * 应用警报的具体实现
  * @author qi guan yi
  *
  */
-public class ApplicationAlarmTrigger extends AbstractAlarmTrigger<DefaultAlarmEventTarget,AlarmData,ApplicationEvent> {
+public class ApplicationAlarmTrigger extends AbstractAlarmTrigger<DefaultAlarmEventTarget,AlarmData,ApplicationEvent,ApplicationEventSetting> {
 
 	@Override
 	protected AlarmDataKey<AlarmData> parseAlarmData(String jsonDdata) {
@@ -43,6 +45,19 @@ public class ApplicationAlarmTrigger extends AbstractAlarmTrigger<DefaultAlarmEv
 	protected DefaultAlarmEventTarget parseTarget(AlarmDataKey<AlarmData> data) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	protected boolean needTriggerAlarm(AlarmEventHolder<ApplicationEvent> holder) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	protected boolean needTriggerNotification(
+			AlarmEventHolder<ApplicationEvent> holder) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 

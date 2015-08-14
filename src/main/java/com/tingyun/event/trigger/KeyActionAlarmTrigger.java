@@ -4,10 +4,12 @@ import java.util.List;
 
 import com.tingyun.event.bean.AlarmData;
 import com.tingyun.event.bean.AlarmDataKey;
+import com.tingyun.event.bean.AlarmEventHolder;
 import com.tingyun.event.bean.DefaultAlarmEventTarget;
 import com.tingyun.event.entity.KeyActionEvent;
+import com.tingyun.event.entity.KeyActionEventSetting;
 
-public class KeyActionAlarmTrigger extends AbstractAlarmTrigger<DefaultAlarmEventTarget,AlarmData,KeyActionEvent> {
+public class KeyActionAlarmTrigger extends AbstractAlarmTrigger<DefaultAlarmEventTarget,AlarmData,KeyActionEvent,KeyActionEventSetting> {
 
 	@Override
 	protected AlarmDataKey<AlarmData> parseAlarmData(String jsonDdata) {
@@ -38,6 +40,19 @@ public class KeyActionAlarmTrigger extends AbstractAlarmTrigger<DefaultAlarmEven
 	protected DefaultAlarmEventTarget parseTarget(AlarmDataKey<AlarmData> data) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	protected boolean needTriggerAlarm(AlarmEventHolder<KeyActionEvent> holder) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	protected boolean needTriggerNotification(
+			AlarmEventHolder<KeyActionEvent> holder) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

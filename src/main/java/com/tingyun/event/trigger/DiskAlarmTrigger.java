@@ -4,15 +4,17 @@ import java.util.List;
 
 import com.tingyun.event.bean.AlarmData;
 import com.tingyun.event.bean.AlarmDataKey;
+import com.tingyun.event.bean.AlarmEventHolder;
 import com.tingyun.event.bean.DefaultAlarmEventTarget;
 import com.tingyun.event.entity.DiskEvent;
+import com.tingyun.event.entity.ServerEventSetting;
 
 /**
  * 硬盘警报具体通知
  * @author qi guan yi
  *
  */
-public class DiskAlarmTrigger extends AbstractAlarmTrigger<DefaultAlarmEventTarget,AlarmData,DiskEvent> {
+public class DiskAlarmTrigger extends AbstractAlarmTrigger<DefaultAlarmEventTarget,AlarmData,DiskEvent,ServerEventSetting> {
 
 	@Override
 	protected AlarmDataKey<AlarmData> parseAlarmData(String jsonDdata) {
@@ -45,5 +47,16 @@ public class DiskAlarmTrigger extends AbstractAlarmTrigger<DefaultAlarmEventTarg
 		return null;
 	}
 
+	@Override
+	protected boolean needTriggerAlarm(AlarmEventHolder<DiskEvent> holder) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	protected boolean needTriggerNotification(AlarmEventHolder<DiskEvent> holder) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 }
