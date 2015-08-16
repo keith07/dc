@@ -60,5 +60,17 @@ public class ApplicationAlarmTrigger extends AbstractAlarmTrigger<DefaultAlarmEv
 		return false;
 	}
 
+	@Override
+	protected ApplicationEvent createEvent() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected ApplicationEvent createEvent(DefaultAlarmEventTarget target) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }

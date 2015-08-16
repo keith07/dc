@@ -55,4 +55,16 @@ public class SysAlarmTrigger extends AbstractAlarmTrigger<DefaultAlarmEventTarge
 		return false;
 	}
 
+	@Override
+	protected ServerEvent createEvent() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected ServerEvent createEvent(DefaultAlarmEventTarget target) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

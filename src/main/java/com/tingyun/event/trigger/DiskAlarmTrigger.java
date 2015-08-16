@@ -59,4 +59,16 @@ public class DiskAlarmTrigger extends AbstractAlarmTrigger<DefaultAlarmEventTarg
 		return false;
 	}
 
+	@Override
+	protected DiskEvent createEvent() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected DiskEvent createEvent(DefaultAlarmEventTarget target) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

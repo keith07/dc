@@ -55,4 +55,16 @@ public class KeyActionAlarmTrigger extends AbstractAlarmTrigger<DefaultAlarmEven
 		return false;
 	}
 
+	@Override
+	protected KeyActionEvent createEvent() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected KeyActionEvent createEvent(DefaultAlarmEventTarget target) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
